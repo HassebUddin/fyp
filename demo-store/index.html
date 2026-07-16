@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NovaMart Demo Store · AdShield live test</title>
+    <script src="http://127.0.0.1:5000/tracker.js?site_id=c3f1ed806551430d" async></script>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: #121a2b;
+        --line: #243049;
+        --text: #e8eef8;
+        --muted: #9aa8bd;
+        --signal: #35e8c9;
+        --danger: #ff5d6c;
+        --copper: #e8a87c;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: radial-gradient(1200px 600px at 10% -10%, #16304a 0%, var(--bg) 55%);
+        color: var(--text);
+        min-height: 100vh;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--line);
+        background: rgba(11, 18, 32, 0.85);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+      }
+      .brand { font-weight: 800; letter-spacing: -0.03em; font-size: 1.25rem; }
+      .brand span { color: var(--signal); }
+      .badge {
+        font-family: Consolas, monospace;
+        font-size: 11px;
+        border: 1px solid color-mix(in srgb, var(--signal) 40%, transparent);
+        color: var(--signal);
+        padding: 0.35rem 0.7rem;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--signal) 10%, transparent);
+      }
+      main { max-width: 980px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+      h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.04em; margin: 0 0 0.5rem; }
+      .lead { color: var(--muted); max-width: 36rem; line-height: 1.55; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem; }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 1rem;
+        padding: 1.1rem;
+      }
+      .card h3 { margin: 0.6rem 0 0.25rem; font-size: 1.05rem; }
+      .card p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+      .price { color: var(--copper); font-family: Consolas, monospace; margin-top: 0.75rem; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin-top: 1.5rem;
+        padding: 0.75rem 1.1rem;
+        border-radius: 999px;
+        border: 0;
+        background: var(--signal);
+        color: #042018;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .btn-danger {
+        background: transparent;
+        color: var(--danger);
+        border: 1px solid color-mix(in srgb, var(--danger) 45%, transparent);
+        margin-left: 0.5rem;
+      }
+      .panel {
+        margin-top: 2rem;
+        padding: 1.1rem 1.25rem;
+        border-radius: 1rem;
+        border: 1px dashed var(--line);
+        background: rgba(18, 26, 43, 0.7);
+        font-family: Consolas, monospace;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .panel strong { color: var(--signal); }
+      #log { margin-top: 0.75rem; white-space: pre-wrap; color: var(--text); min-height: 3rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">Nova<span>Mart</span></div>
+      <div class="badge">AdShield LIVE · demo site</div>
+    </header>
+
+    <main>
+      <h1>Wireless earbuds · Summer drop</h1>
+      <p class="lead">
+        This is a fake store page with the real AdShield script. Opening it sends a pageview.
+        Clicking the bot trap below fires a honeypot hit — watch your dashboard update live.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <div style="height:110px;border-radius:12px;background:linear-gradient(135deg,#1d3a52,#0f1b2d);"></div>
+          <h3>Pulse Buds Pro</h3>
+          <p>Noise cancel · 28h case</p>
+          <div class="price">$79</div>
+        </article>
+        <article class="card">
+          <div style="height:110px;border-radius:12px;background:linear-gradient(135deg,#3a2a1d,#0f1b2d);"></div>
+          <h3>Trail Runner Cap</h3>
+          <p>Lightweight mesh</p>
+          <div class="price">$24</div>
+        </article>
+        <article class="card">
+          <div style="height:110px;border-radius:12px;background:linear-gradient(135deg,#1d3a2a,#0f1b2d);"></div>
+          <h3>Desk Lamp Mini</h3>
+          <p>USB-C · warm dim</p>
+          <div class="price">$39</div>
+        </article>
+      </div>
+
+      <button class="btn" type="button" onclick="location.reload()">Refresh pageview</button>
+      <button class="btn btn-danger" type="button" id="botTrap">Simulate bot honeypot click</button>
+
+      <div class="panel">
+        <div><strong>How to verify:</strong> login as <strong>demo@adshield.local</strong> / <strong>Demo1234!</strong> → open dashboard → keep this tab open.</div>
+        <div id="log">Waiting for tracker…</div>
+      </div>
+    </main>
+
+    <script>
+      const log = (msg) => {
+        const el = document.getElementById("log");
+        const t = new Date().toLocaleTimeString();
+        el.textContent = `[${t}] ${msg}\n` + el.textContent;
+      };
+
+      // Wait for tracker honeypot link, then wire demo button to click it
+      function armTrap() {
+        const traps = [...document.querySelectorAll('a[aria-hidden="true"]')];
+        const trap = traps.find((a) => a.style && a.style.left === "-9999px") || traps[0];
+        if (!trap) {
+          log("Tracker not ready yet…");
+          return false;
+        }
+        document.getElementById("botTrap").onclick = () => {
+          trap.click();
+          log("Honeypot clicked → bot event sent to AdShield");
+        };
+        log("Tracker loaded. Pageview already sent. Ready for honeypot test.");
+        return true;
+      }
+
+      let tries = 0;
+      const iv = setInterval(() => {
+        tries += 1;
+        if (armTrap() || tries > 20) clearInterval(iv);
+      }, 250);
+    </script>
+  </body>
+</html>
